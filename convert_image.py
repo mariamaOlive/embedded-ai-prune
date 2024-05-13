@@ -28,8 +28,8 @@ def save_to_header(data:np.ndarray, output_file:str):
 
 if __name__ == "__main__":
     # Todo: Add path for image/images and the output file name with .h extension (eg- filename.h)
-    image_path = "test_inputs/benchmark_image.jpg"
-    output_file = "output_files/test_image.h"
+    image_path = "test_inputs/nine.png"
+    output_file = "classifying_imu/output_files/nine.h"
 
     processed_image = preprocess_image(image_path)
     save_to_header(processed_image, output_file)
