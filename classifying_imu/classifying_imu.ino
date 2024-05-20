@@ -138,8 +138,8 @@ void loop() {
 
     for (int i=0; i<28*28; i++){
 
-      // tflInputTensor->data.f[i] = (float) image_data[i]/255;
-      tflInputTensor->data.int8[i] = (int) image_data[i]/255;
+      tflInputTensor->data.f[i] = (float) image_data[i]/255;
+      // tflInputTensor->data.int8[i] = (int) image_data[i]/255;
     }
 
 
