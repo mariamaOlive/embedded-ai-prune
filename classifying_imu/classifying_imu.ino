@@ -19,7 +19,7 @@
 #include "tensorflow/lite/micro/all_ops_resolver.h"
 #include "tensorflow/lite/micro/micro_interpreter.h"
 #include "tensorflow/lite/schema/schema_generated.h"
-#include "output_files/sample_0.h"
+#include "output_files/sample_7.h"
 
 #include "content/model.h"
 
@@ -84,6 +84,8 @@ void setup() {
 void loop() {
     for (int i=0; i<28*28; i++){
       // input the unsigned int data from the header
+      // tflInputTensor->data.f[i] = (float) image_data[i]/255;
+      // tflInputTensor->data.int8[i] = (int) image_data[i]/255;
       tflInputTensor->data.int8[i] = static_cast<uint8_t>(image_data[i] / 255.0f * 255); // Normalize and scale to 0-255
     }
 
@@ -93,8 +95,16 @@ void loop() {
       Serial.println("Invoke failed!");
       return;
     }
-    
-    // // Process and print the output
+
+    // for (int i = 0; i < 10; i++) {
+    //   // Serial.print(GESTURES[i]);
+    //   Serial.print("Class ");
+    //   Serial.print(i);
+    //   Serial.print(": ");
+    //   Serial.println(tflOutputTensor->data.f[i], 6);
+    // }
+
+    // Process and print the output
     tflOutputTensor = tflInterpreter->output(0);
     float scale = tflOutputTensor->params.scale;
     int zero_point = tflOutputTensor->params.zero_point;
@@ -106,7 +116,7 @@ void loop() {
 
   for (int i = 0; i < 10; i++) {
     Serial.print(": ");
-    float probability = (probabilities[i] - zero_point) * scale;
+    float probability = probabilities[i];
     Serial.print("Class ");
     Serial.print(i);
     Serial.print(": ");
@@ -119,12 +129,12 @@ void loop() {
     }
   }
 
-    // Print the class with the largest probability
-    Serial.print("Class with largest probability: ");
-    Serial.print("Class ");
-    Serial.print(max_index);
-    Serial.print(": ");
-    Serial.println(max_probability, 6);
+  //   // Print the class with the largest probability
+  //   Serial.print("Class with largest probability: ");
+  //   Serial.print("Class ");
+  //   Serial.print(max_index);
+  //   Serial.print(": ");
+  //   Serial.println(max_probability, 6);
 
     Serial.println();
     delay(10000);
